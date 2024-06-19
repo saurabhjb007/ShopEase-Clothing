@@ -6,7 +6,7 @@ const ListProduct = () => {
   const [allproducts, setallproducts] = useState([]);
 
   const fetchInfo = async () => {
-    await fetch("http://localhost:3000/allproducts")
+    await fetch("https://shopease-backend-9ho7.onrender.com/allproducts")
       .then((res) => res.json())
       .then((data) => {
         setallproducts(data);
@@ -18,7 +18,7 @@ const ListProduct = () => {
   }, []);
 
   const removeProduct = async (id) => {
-    await fetch("http://localhost:3000/removeproduct", {
+    await fetch("https://shopease-backend-9ho7.onrender.com/removeproduct", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
   // useEffect hook to fetch all products and cart items on component mount
   useEffect(() => {
     // Fetch all products
-    fetch("http://localhost:3000/allproducts")
+    fetch("https://shopease-backend-9ho7.onrender.com/allproducts")
       .then((res) => res.json())
       .then((data) => setall_product(data))
       .catch((error) => console.error("Error fetching products:", error));
@@ -29,7 +29,7 @@ const ShopContextProvider = (props) => {
     // Fetch cart items if authenticated
     const authToken = localStorage.getItem("auth-token");
     if (authToken) {
-      fetch("http://localhost:3000/getcart", {
+      fetch("https://shopease-backend-9ho7.onrender.com/getcart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const ShopContextProvider = (props) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     const authToken = localStorage.getItem("auth-token");
     if (authToken) {
-      fetch("http://localhost:3000/addtocart", {
+      fetch("https://shopease-backend-9ho7.onrender.com/addtocart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const ShopContextProvider = (props) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     const authToken = localStorage.getItem("auth-token");
     if (authToken) {
-      fetch("http://localhost:3000/removefromcart", {
+      fetch("https://shopease-backend-9ho7.onrender.com/removefromcart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

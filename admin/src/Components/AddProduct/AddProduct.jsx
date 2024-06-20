@@ -3,7 +3,7 @@ import "./AddProduct.css";
 import upload_area from "../../assets/upload_area.svg";
 
 const AddProduct = () => {
-  const [image, setImage] = useState(false);
+  const [image, setImage] = useState(null); // Use null instead of false for the image state
   const [productDetails, setProductDetails] = useState({
     name: "",
     image: "",
@@ -38,6 +38,7 @@ const AddProduct = () => {
       .then((data) => {
         responseData = data;
       });
+
     if (responseData.success) {
       product.image = responseData.image_url;
       await fetch("https://shopease-backend-9ho7.onrender.com/addproduct", {
@@ -50,7 +51,19 @@ const AddProduct = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          data.success ? alert("Product Added") : alert("Failed");
+          if (data.success) {
+            alert("Product Added");
+            setProductDetails({
+              name: "",
+              image: "",
+              category: "women",
+              new_price: "",
+              old_price: "",
+            });
+            setImage(null);
+          } else {
+            alert("Failed");
+          }
         });
     }
   };
@@ -119,9 +132,7 @@ const AddProduct = () => {
         />
       </div>
       <button
-        onClick={() => {
-          addProduct();
-        }}
+        onClick={addProduct}
         className="addproduct-btn"
       >
         ADD

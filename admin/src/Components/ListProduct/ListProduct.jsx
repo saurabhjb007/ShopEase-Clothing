@@ -3,13 +3,13 @@ import "./ListProduct.css";
 import cross_icon from "../../assets/cross_icon.png";
 
 const ListProduct = () => {
-  const [allproducts, setAllProducts] = useState([]);
+  const [allproducts, setallproducts] = useState([]);
 
   const fetchInfo = async () => {
     await fetch("https://shopease-backend-9ho7.onrender.com/allproducts")
       .then((res) => res.json())
       .then((data) => {
-        setAllProducts(data);
+        setallproducts(data);
       });
   };
 
@@ -26,7 +26,7 @@ const ListProduct = () => {
       },
       body: JSON.stringify({ id: id }),
     });
-    await fetchInfo();
+    await fetchInfo()
   };
 
   return (
@@ -44,26 +44,31 @@ const ListProduct = () => {
         <hr />
         {allproducts.map((product, index) => {
           return (
-            <div key={index} className="listproduct-format-main listproduct-format">
-              <img
-                src={product.image}
-                alt=""
-                className="listproduct-product-icon"
-              />
-              <p>{product.name}</p>
-              <p>₹{product.old_price}</p>
-              <p>₹{product.new_price}</p>
-              <p>{product.category}</p>
-              <img
-                onClick={() => {
-                  removeProduct(product.id);
-                }}
-                src={cross_icon}
-                alt=""
-                className="listproduct-remove-icon"
-              />
+            <>
+              <div
+                key={index}
+                className="listproduct-format-main listproduct-format"
+              >
+                <img
+                  src={product.image}
+                  alt=""
+                  className="listproduct-product-icon"
+                />
+                <p>{product.name}</p>
+                <p>₹{product.old_price}</p>
+                <p>₹{product.new_price}</p>
+                <p>{product.category}</p>
+                <img
+                  onClick={() => {
+                    removeProduct(product.id);
+                  }}
+                  src={cross_icon}
+                  alt=""
+                  className="listproduct-remove-icon"
+                />
+              </div>
               <hr />
-            </div>
+            </>
           );
         })}
       </div>

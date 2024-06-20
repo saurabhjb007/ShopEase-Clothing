@@ -25,23 +25,31 @@ app.get("/", (req, res) => {
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
-    return cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
+    // Generate unique filename
+    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 const upload = multer({ storage: storage });
 
-// Creating upload endpoint for image
+
+// Serve uploaded images statically
 app.use("/images", express.static("./upload/images"));
 
+// Image Upload Endpoint
 app.post("/upload", upload.single("product"), (req, res) => {
-  res.json({
-    success: 1,
-    image_url: `https://shopease-clothing.onrender.com/images/${req.file.filename}`,
-  });
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: "No file uploaded" });
+    }
+    // Construct image URL
+    const imageUrl = `https://shopease-clothing.onrender.com/images/${req.file.filename}`;
+    res.json({ success: true, image_url: imageUrl });
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    res.status(500).json({ success: false, error: "Server error while uploading image" });
+  }
 });
+
 
 // Schema for Creating Product
 const Product = mongoose.model("Product", {

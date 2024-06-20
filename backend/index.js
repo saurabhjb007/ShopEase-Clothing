@@ -39,7 +39,7 @@ app.use("/images", express.static("./upload/images"));
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
     success: 1,
-     image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    image_url: `https://shopease-backend-9ho7.onrender.com//images/${req.file.filename}`,
   });
 });
 
@@ -168,7 +168,7 @@ app.post("/signup", async (req, res) => {
     },
   };
 
-  const token = jwt.sign(data, "secret_ecom");
+  const token = jwt.sign(data, process.env.JWT_SECRET || "secret_ecom");
   res.json({ success: true, token });
 });
 

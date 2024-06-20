@@ -21,35 +21,26 @@ const AddProduct = () => {
   };
 
   const addProduct = async () => {
-    if (!image) {
-      alert("Please upload an image");
-      return;
-    }
-
     let responseData;
     let product = productDetails;
 
     let formData = new FormData();
     formData.append("product", image);
 
-    // Upload image first
     await fetch("https://shopease-backend-9ho7.onrender.com/upload", {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
         responseData = data;
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        alert("Failed to upload image");
       });
 
-    if (responseData && responseData.success) {
-      // Image uploaded successfully, now add the product
+    if (responseData.success) {
       product.image = responseData.image_url;
-
       await fetch("https://shopease-backend-9ho7.onrender.com/addproduct", {
         method: "POST",
         headers: {
@@ -71,15 +62,9 @@ const AddProduct = () => {
             });
             setImage(null);
           } else {
-            alert("Failed to add product");
+            alert("Failed");
           }
-        })
-        .catch((error) => {
-          console.error("Error adding product:", error);
-          alert("Failed to add product");
         });
-    } else {
-      alert("Image upload failed");
     }
   };
 
@@ -146,7 +131,10 @@ const AddProduct = () => {
           hidden
         />
       </div>
-      <button onClick={addProduct} className="addproduct-btn">
+      <button
+        onClick={addProduct}
+        className="addproduct-btn"
+      >
         ADD
       </button>
     </div>
